@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Words</title>
+    <style>
+        .word {
+            color: black;
+            cursor: pointer;
+            background-color: #89CFF0;
+        }
+        .highlighted {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="textContainer"></div>
+
+    <script>
+        const inputText = "This is an example text. Click on any word to highlight it.";
+
+        function toggleHighlight(event) {
+            event.target.classList.toggle('highlighted');
+        }
+
+        function processText(text) {
+            const textContainer = document.getElementById('textContainer');
+            const words = text.split(' ');
+
+            words.forEach((word, index) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                wordSpan.textContent = word;
+                wordSpan.addEventListener('click', toggleHighlight);
+                textContainer.appendChild(wordSpan);
+
+                if (index < words.length - 1) {
+                    const spaceSpan = document.createElement('span');
+                    spaceSpan.textContent = ' ';
+                    textContainer.appendChild(spaceSpan);
+                }
+
+            });
+        }
+
+        processText(inputText);
+    </script>
+</body>
+</html>
