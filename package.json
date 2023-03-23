@@ -1,0 +1,26 @@
+{
+  "name": "infite-histories",
+  "version": "1.0.0",
+  "description": "0. First Commands",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juantobiasdl7/Infinite-Histories.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juantobiasdl7/Infinite-Histories/issues"
+  },
+  "homepage": "https://github.com/juantobiasdl7/Infinite-Histories#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.12.1",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^10.0.0"
+  }
+}

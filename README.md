@@ -17,3 +17,15 @@ $ git add .gitignore
 $ git commit -m "add .gitignore file to project"
 $ git push origin main
 git push -u origin main
+
+2.
+Run npm init -y to create a package.json file.
+
+3.
+npm install -g parcel-bundler
+
+4.
+npm install dotenv dotenv-expand
+
+5.
+npm run start
