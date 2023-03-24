@@ -4,17 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clickable Words</title>
-    <style>.word {
-            color: black;
-            cursor: pointer;
-            background-color: #89CFF0;
-        }
-        .highlighted {
-            background-color: yellow;
-        }</style>
-</head>
+    <link rel="stylesheet" href="/styles.8986bff4.css">
+<script src="/styles.8986bff4.js"></script></head>
 <body>
-    <div id="textContainer"></div>
+    <div id="login" class="section">
+
+        <h1>This is the log in page.</h1>
+
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="signUpButton">Sign up</button>
+        <button id="signInButton">Sign in</button>
+        <button id="signOutButton">Sign out</button>
+
+    </div>
+
+    <div id="text-interaction-area" class="container section">
+        <div id="textContainer"></div>
+        <div class="button-container">
+            <button id="ignore-word">Ignore Word</button>
+            <button id="known-word">I know this word</button>
+            <button id="marked-word">MARK THIS WORD!</button>
+        </div>
+        <div class="button-container">
+            <button id="marked-words-as-known">Mark all blue words as known</button>
+        </div>
+    </div>
+    <button id="floating-button" class="floating-button">Floating Button</button>
     <script src="/main.1f19ae8e.js"></script>
 </body>
 </html>
