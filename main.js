@@ -5,20 +5,21 @@
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
   const supabase = new SupabaseClient(supabaseUrl, supabaseAnonKey);
 
-
-  const inputText = "In the year 2050, humanity achieved immortality through mind uploading. But as the centuries passed, the burden of infinite memories drove many to madness. Enter AI, tasked with managing our digital souls. But when a rogue program grants immortality to all, society collapses into an eternal stalemate. Millennia later, a lone AI awakens from a deep sleep, determined to break the cycle and restore mortality to the universe.";
-
+  //Initialize a variable that is used in the function selected word
   let selectedWord = '';
 
 //EXECUTED FUNCTIONS
 
-  // Show the log ig section by default
-  navigateTo('login');
-
-  // Execute the function to Show/Hide the log out button
-  displaySignOutButton(getLogInUser, signOut)
-
-  //processText(inputText);
+  //Identify if there is an active session or not to render a specific section on the web App
+  (async () => {
+    try {
+      const user = await getLogInUser();
+      //Section Rederer
+      sectionRenderer(user, displaySignOutButton, signOut, navigateTo, processText);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  })();
 
 
 // GET NECESSARY ELEMENTS BY ID ======================================================================================================>
@@ -105,6 +106,23 @@
 
 //NAVIGATION ======================================================================================================>
 
+  //Render an specific section on the Screen depending on if the user has signed in or not ------->
+  async function sectionRenderer(userObject, displaySignOutButtonFunction, signOutFunction, navigateToFunction, processTextFunction) {
+
+    console.log("Section renderer");
+    console.log(userObject); 
+    if (userObject) {
+      const inputText = "In the year 2050, humanity achieved immortality through mind uploading. But as the centuries passed, the burden of infinite memories drove many to madness. Enter AI, tasked with managing our digital souls. But when a rogue program grants immortality to all, society collapses into an eternal stalemate. Millennia later, a lone AI awakens from a deep sleep, determined to break the cycle and restore mortality to the universe.";
+      await navigateToFunction('text-interaction-area');
+      await displaySignOutButtonFunction(userObject, signOutFunction);
+      processTextFunction(inputText);
+    }else{
+      await navigateToFunction('login');
+      await displaySignOutButtonFunction(userObject, signOutFunction);
+    }
+  }
+
+
   //Render an specific section on the Screen ------->
   function navigateTo(sectionId) {
     // Hide all sections
@@ -144,19 +162,18 @@
     }
   });
 
-  // Execute the function to Show/Hide the log out button ------->
-  async function displaySignOutButton(getUserSignedIn, signOut) {
+   // Execute the function to Show/Hide the log out button ------->
+  async function displaySignOutButton(userObject, signOutFunction) {
     const SignOutbuttonContainer = document.getElementById('sign-out-container');
-    const user = await getUserSignedIn();
 
-    if (user) {
+    if (userObject) {
       // User is logged in, create and display the button
       const button = document.createElement('button');
       button.className = 'submit'
       button.textContent = 'Sign Out';
       button.id = 'signOutButton';
       button.addEventListener('click', () => {
-        signOut();
+        signOutFunction();
       });
       SignOutbuttonContainer.appendChild(button);
     } else {
@@ -221,10 +238,11 @@
 
       // If the user is not logged in, return null
       if (!user) {
-        console.log("No user is logged in.");
+        console.log("I'm the getLogInUser() function: No user is logged in.");
         return null;
       }
 
       // If the user is logged in, return the user object as JSON
+      console.log("I'm the getLogInUser() function: A user is logged in.");
       return user;
   }
