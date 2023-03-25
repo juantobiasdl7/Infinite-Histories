@@ -14,7 +14,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+}
+
+.button-container {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 20px;
 }
 
 h2 {
@@ -61,12 +66,6 @@ input {
     display: none;
 }
 
-.button-container {
-    display: flex;
-    gap: 50px;
-    margin-bottom: 20px;
-}
-
 #textContainer {
     padding: 20px;
     border: 1px solid #ccc;
@@ -88,7 +87,7 @@ input {
     border-radius: 20px;
 }
 
-#sign-out-container {
+.sign-out-container {
     position: fixed;
     bottom: 20px;
     left: 20px;
