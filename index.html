@@ -7,16 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="login" class="section">
+    <div id="login" class="section form-container">
 
-        <h1>This is the log in page.</h1>
-
-        <input type="email" id="email" placeholder="Email" />
-        <input type="password" id="password" placeholder="Password" />
-        <button id="signUpButton">Sign up</button>
-        <button id="signInButton">Sign in</button>
-        <button id="signOutButton">Sign out</button>
-
+        <h1>Sign up / Sign in</h1>
+        <form id="Form"> 
+            <input type="email" name="email" id="email" placeholder="Email" required/>
+            <input type="password" name="password" id="password" placeholder="Password" requiered/>
+            <button type="submit" id="signUpButton" class="submit">Sign up</button>
+            <button type="submit" id="signInButton" class="submit">Sign in</button>
+        </form>
     </div>
 
     <div id="text-interaction-area" class="container section">
@@ -30,7 +29,7 @@
             <button id="marked-words-as-known">Mark all blue words as known</button>
         </div>
     </div>
-    <button id="floating-button" class="floating-button">Floating Button</button>
+    <div id="sign-out-container"></div>
     <script src="main.js"></script>
 </body>
 </html>

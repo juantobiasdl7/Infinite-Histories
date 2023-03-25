@@ -78,8 +78,6 @@ function processText(text) {
   // Add event listeners to the navigation buttons
   const signUpButton = document.getElementById('signUpButton');
   const signInButton = document.getElementById('signInButton');
-  const signOutButton = document.getElementById('signOutButton');
-  const floatingButton = document.getElementById('floating-button');
 
   signUpButton.addEventListener('click', () => {
     const email = document.getElementById("email").value;
@@ -93,12 +91,29 @@ function processText(text) {
     signIn(email, password);
   });
 
-  signOutButton.addEventListener("click", () => signOut());
-  floatingButton.addEventListener("click", () => getLogInUser());
- 
+  // Execute the function to Show/Hide the log out button
+  async function displaySignOutButton(getUserSignedIn, signOut) {
+    const SignOutbuttonContainer = document.getElementById('sign-out-container');
+    const user = await getUserSignedIn();
 
-  // Show the home section by default
-  navigateTo('login');
+    if (user) {
+      // User is logged in, create and display the button
+      const button = document.createElement('button');
+      button.className = 'submit'
+      button.textContent = 'Sign Out';
+      button.id = 'signOutButton';
+      button.addEventListener('click', () => {
+        signOut();
+      });
+      SignOutbuttonContainer.appendChild(button);
+    } else {
+      // User is not logged in, remove the button if it exists
+      const existingButton = document.getElementById('signOutButton');
+      if (existingButton) {
+        buttonContainer.removeChild(existingButton);
+      }
+    }
+  }
 
 
 //SUPABASE FUNCTIONS
@@ -132,6 +147,7 @@ function processText(text) {
         console.error("Error signing in:", error.message);
       } else {
         console.log("User signed in:", data);
+        window.location.reload();
       }
     }
 
@@ -139,6 +155,7 @@ function processText(text) {
     function signOut() {
       supabase.auth.signOut().then(() => {
         console.log("User signed out.");
+        window.location.reload();
       });
     }
 
@@ -147,6 +164,8 @@ function processText(text) {
         // Get the current user
         const { data: { user } } = await supabase.auth.getUser();
 
+        console.log(user);
+
         // If the user is not logged in, return null
         if (!user) {
           console.log("No user is logged in.");
@@ -154,7 +173,6 @@ function processText(text) {
         }
 
         // If the user is logged in, return the user object as JSON
-        console.log(JSON.stringify(user));
         return user;
     }
 
@@ -181,4 +199,12 @@ function processText(text) {
   }
 }
 
-processText(inputText);
+//EXECUTED FUNCTIONS
+
+  // Show the log ig section by default
+  navigateTo('login');
+
+  // Execute the function to Show/Hide the log out button
+  displaySignOutButton(getLogInUser, signOut)
+
+//processText(inputText);
