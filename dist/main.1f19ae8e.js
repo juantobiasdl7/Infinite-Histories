@@ -7670,12 +7670,30 @@ var supabase = new _supabaseJs.SupabaseClient(supabaseUrl, supabaseAnonKey);
 var inputText = "In the year 2050, humanity achieved immortality through mind uploading. But as the centuries passed, the burden of infinite memories drove many to madness. Enter AI, tasked with managing our digital souls. But when a rogue program grants immortality to all, society collapses into an eternal stalemate. Millennia later, a lone AI awakens from a deep sleep, determined to break the cycle and restore mortality to the universe.";
 var selectedWord = '';
 
-// Get the button elements by its ID
+//EXECUTED FUNCTIONS
+
+// Show the log ig section by default
+navigateTo('login');
+
+// Execute the function to Show/Hide the log out button
+displaySignOutButton(getLogInUser, signOut);
+
+//processText(inputText);
+
+// GET NECESSARY ELEMENTS BY ID ======================================================================================================>
+
+// Login buttons
+var signUpButton = document.getElementById('signUpButton');
+var signInButton = document.getElementById('signInButton');
+
+//Infinite Histories buttons for texts
 var buttonIgnoreWord = document.getElementById("ignore-word");
 var buttonKnownWord = document.getElementById("known-word");
 var buttonMarkedWord = document.getElementById("marked-word");
 
-//SELECT A WORD FROM SPAN ARRAY OF WORDS
+//FUNCTIONS FOR THE TEXTS SECTION ======================================================================================================>
+
+// SELECT A WORDS OF A TEXT------->
 function selectWord(event) {
   // Remove 'selected' class from all word elements
   var wordElements = document.querySelectorAll('.word');
@@ -7689,10 +7707,10 @@ function selectWord(event) {
   console.log('Selected word: ' + selectedWord);
 }
 
-//TURN A WORD YELLOW IF MARKED AS A LINGQ
+//TURN A WORD YELLOW IF IT IS MARKED BY THE USER------->
 function toggleHighlight(_x) {
   return _toggleHighlight.apply(this, arguments);
-} //PROCESS THE ENTIRE TEXT TO IDENTIFY INDIVIDUAL WORDS AND ADD AN EVENT LISTENER TO EVERY ONE OF THEM
+} //PROCESS THE ENTIRE TEXT TO IDENTIFY INDIVIDUAL WORDS AND ADD AN EVENT LISTENER TO EVERY ONE OF THEM ------->
 function _toggleHighlight() {
   _toggleHighlight = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(event) {
     var word, color;
@@ -7729,8 +7747,49 @@ function processText(text) {
   });
 }
 
-//NAVIGATION
-
+//SAVE WORDS TO THE DB ------->
+function saveWord(_x2, _x3) {
+  return _saveWord.apply(this, arguments);
+} //NAVIGATION ======================================================================================================>
+//Render an specific section on the Screen ------->
+function _saveWord() {
+  _saveWord = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(word, color) {
+    var _response;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          _context4.next = 3;
+          return supabase.from('words').insert([{
+            text: word,
+            color: color
+          }]);
+        case 3:
+          _response = _context4.sent;
+          console.log('Saved word:');
+          console.log('Response:', _response);
+          console.log('Data:', _response.data);
+          console.log('Error:', _response.error);
+          if (!_response.error) {
+            _context4.next = 10;
+            break;
+          }
+          throw error;
+        case 10:
+          _context4.next = 15;
+          break;
+        case 12:
+          _context4.prev = 12;
+          _context4.t0 = _context4["catch"](0);
+          console.error('Error saving word to the database:', response.error.message);
+        case 15:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, null, [[0, 12]]);
+  }));
+  return _saveWord.apply(this, arguments);
+}
 function navigateTo(sectionId) {
   // Hide all sections
   var sections = document.querySelectorAll('.section');
@@ -7743,9 +7802,7 @@ function navigateTo(sectionId) {
   selectedSection.style.display = 'block';
 }
 
-// Add event listeners to the navigation buttons
-var signUpButton = document.getElementById('signUpButton');
-var signInButton = document.getElementById('signInButton');
+//Sign Up Event Listener ------->
 signUpButton.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
   var email, password;
   return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -7771,6 +7828,8 @@ signUpButton.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE
     }
   }, _callee, null, [[3, 9]]);
 })));
+
+//Sign in Event Listener ------->
 signInButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
   var email, password;
   return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -7795,22 +7854,22 @@ signInButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE
   }, _callee2, null, [[2, 7]]);
 })));
 
-// Execute the function to Show/Hide the log out button
-function displaySignOutButton(_x2, _x3) {
+// Execute the function to Show/Hide the log out button ------->
+function displaySignOutButton(_x4, _x5) {
   return _displaySignOutButton.apply(this, arguments);
-} //SUPABASE FUNCTIONS
-//SIGN UP
+} //SUPABASE FUNCTIONS ======================================================================================================>
+//SIGN UP ------->
 function _displaySignOutButton() {
-  _displaySignOutButton = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(getUserSignedIn, signOut) {
+  _displaySignOutButton = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(getUserSignedIn, signOut) {
     var SignOutbuttonContainer, user, button, existingButton;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
         case 0:
           SignOutbuttonContainer = document.getElementById('sign-out-container');
-          _context4.next = 3;
+          _context5.next = 3;
           return getUserSignedIn();
         case 3:
-          user = _context4.sent;
+          user = _context5.sent;
           if (user) {
             // User is logged in, create and display the button
             button = document.createElement('button');
@@ -7830,68 +7889,68 @@ function _displaySignOutButton() {
           }
         case 5:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
-    }, _callee4);
+    }, _callee5);
   }));
   return _displaySignOutButton.apply(this, arguments);
 }
-function signUp(_x4, _x5) {
+function signUp(_x6, _x7) {
   return _signUp.apply(this, arguments);
-} //SIGN IN
+} //SIGN IN ------->
 function _signUp() {
-  _signUp = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(email, password) {
+  _signUp = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(email, password) {
     var _yield$supabase$auth$, data, _error;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
-          _context5.prev = 0;
-          _context5.next = 3;
+          _context6.prev = 0;
+          _context6.next = 3;
           return supabase.auth.signUp({
             email: email,
             password: password
           });
         case 3:
-          _yield$supabase$auth$ = _context5.sent;
+          _yield$supabase$auth$ = _context6.sent;
           data = _yield$supabase$auth$.data;
           _error = _yield$supabase$auth$.error;
           console.log("User signed up:", data);
           if (!_error) {
-            _context5.next = 9;
+            _context6.next = 9;
             break;
           }
           throw _error;
         case 9:
-          _context5.next = 14;
+          _context6.next = 14;
           break;
         case 11:
-          _context5.prev = 11;
-          _context5.t0 = _context5["catch"](0);
-          console.error('Error registrating the user.', _context5.t0.message);
+          _context6.prev = 11;
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error registrating the user.', _context6.t0.message);
         case 14:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee6, null, [[0, 11]]);
   }));
   return _signUp.apply(this, arguments);
 }
-function signIn(_x6, _x7) {
+function signIn(_x8, _x9) {
   return _signIn.apply(this, arguments);
-} //SIGN OUT
+} //SIGN OUT ------->
 function _signIn() {
-  _signIn = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(email, password) {
+  _signIn = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(email, password) {
     var _yield$supabase$auth$2, data, error;
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
         case 0:
-          _context6.next = 2;
+          _context7.next = 2;
           return supabase.auth.signInWithPassword({
             email: email,
             password: password
           });
         case 2:
-          _yield$supabase$auth$2 = _context6.sent;
+          _yield$supabase$auth$2 = _context7.sent;
           data = _yield$supabase$auth$2.data;
           error = _yield$supabase$auth$2.error;
           if (error) {
@@ -7902,114 +7961,66 @@ function _signIn() {
           }
         case 6:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
-    }, _callee6);
+    }, _callee7);
   }));
   return _signIn.apply(this, arguments);
 }
 function signOut() {
   return _signOut.apply(this, arguments);
-} //GET THE USER - JSON object for the logged in user.
+} //GET THE USER - JSON object for the logged in user ------->
 function _signOut() {
-  _signOut = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
+  _signOut = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
         case 0:
-          _context7.next = 2;
+          _context8.next = 2;
           return supabase.auth.signOut().then(function () {
             console.log("User signed out.");
             window.location.reload();
           });
         case 2:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
-    }, _callee7);
+    }, _callee8);
   }));
   return _signOut.apply(this, arguments);
 }
 function getLogInUser() {
   return _getLogInUser.apply(this, arguments);
-} //SAVE WORDS
+}
 function _getLogInUser() {
-  _getLogInUser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+  _getLogInUser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
     var _yield$supabase$auth$3, user;
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
         case 0:
-          _context8.next = 2;
+          _context9.next = 2;
           return supabase.auth.getUser();
         case 2:
-          _yield$supabase$auth$3 = _context8.sent;
+          _yield$supabase$auth$3 = _context9.sent;
           user = _yield$supabase$auth$3.data.user;
           console.log(user);
 
           // If the user is not logged in, return null
           if (user) {
-            _context8.next = 8;
+            _context9.next = 8;
             break;
           }
           console.log("No user is logged in.");
-          return _context8.abrupt("return", null);
+          return _context9.abrupt("return", null);
         case 8:
-          return _context8.abrupt("return", user);
+          return _context9.abrupt("return", user);
         case 9:
-        case "end":
-          return _context8.stop();
-      }
-    }, _callee8);
-  }));
-  return _getLogInUser.apply(this, arguments);
-}
-function saveWord(_x8, _x9) {
-  return _saveWord.apply(this, arguments);
-} //EXECUTED FUNCTIONS
-// Show the log ig section by default
-function _saveWord() {
-  _saveWord = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(word, color) {
-    var _response;
-    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-      while (1) switch (_context9.prev = _context9.next) {
-        case 0:
-          _context9.prev = 0;
-          _context9.next = 3;
-          return supabase.from('words').insert([{
-            text: word,
-            color: color
-          }]);
-        case 3:
-          _response = _context9.sent;
-          console.log('Saved word:');
-          console.log('Response:', _response);
-          console.log('Data:', _response.data);
-          console.log('Error:', _response.error);
-          if (!_response.error) {
-            _context9.next = 10;
-            break;
-          }
-          throw error;
-        case 10:
-          _context9.next = 15;
-          break;
-        case 12:
-          _context9.prev = 12;
-          _context9.t0 = _context9["catch"](0);
-          console.error('Error saving word to the database:', response.error.message);
-        case 15:
         case "end":
           return _context9.stop();
       }
-    }, _callee9, null, [[0, 12]]);
+    }, _callee9);
   }));
-  return _saveWord.apply(this, arguments);
+  return _getLogInUser.apply(this, arguments);
 }
-navigateTo('login');
-
-// Execute the function to Show/Hide the log out button
-displaySignOutButton(getLogInUser, signOut);
-
-//processText(inputText);
 },{"@supabase/supabase-js":"node_modules/@supabase/supabase-js/dist/module/index.js"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
