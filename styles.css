@@ -45,7 +45,7 @@ h2 {
     margin: 0 1rem;
 }
 
-form {
+.form {
     display: flex;
     flex-direction: column;
 }

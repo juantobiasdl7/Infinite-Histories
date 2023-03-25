@@ -15,6 +15,7 @@ git remote add origin https://github.com/juantobiasdl7/Infinite-Histories.git
 
 $ git add .gitignore
 $ git commit -m "add .gitignore file to project"
+git commit -m "I implemented a simple log in system to allowed the user to access to Infinite Histories (resolves #1, resolves #2)"
 $ git push origin main
 git push -u origin main
 

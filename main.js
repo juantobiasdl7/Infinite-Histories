@@ -79,16 +79,28 @@ function processText(text) {
   const signUpButton = document.getElementById('signUpButton');
   const signInButton = document.getElementById('signInButton');
 
-  signUpButton.addEventListener('click', () => {
+  signUpButton.addEventListener('click', async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    signUp(email, password);
+    console.log('Hello');
+
+    try{
+      await signUp(email, password);
+      console.log("Successful Sign Up!")
+    } catch (error) {
+      console.error('Error signing in:' + error);
+    }
+    
   });
 
-  signInButton.addEventListener("click", () => {
+  signInButton.addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    signIn(email, password);
+    try{
+      await signIn(email, password);
+    } catch (error) {
+      console.error('Error signing in:' + error);
+    }
   });
 
   // Execute the function to Show/Hide the log out button
@@ -152,8 +164,8 @@ function processText(text) {
     }
 
     //SIGN OUT
-    function signOut() {
-      supabase.auth.signOut().then(() => {
+    async function signOut() {
+      await supabase.auth.signOut().then(() => {
         console.log("User signed out.");
         window.location.reload();
       });
@@ -206,5 +218,7 @@ function processText(text) {
 
   // Execute the function to Show/Hide the log out button
   displaySignOutButton(getLogInUser, signOut)
+
+  
 
 //processText(inputText);
